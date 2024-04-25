@@ -7,7 +7,6 @@ import (
 	"github.com/wqh66886/past-present-future/define"
 	"github.com/wqh66886/past-present-future/initial"
 	"github.com/wqh66886/past-present-future/middleware"
-	"github.com/wqh66886/past-present-future/route"
 	"log"
 	"net/http"
 	"os"
@@ -27,7 +26,6 @@ func main() {
 		})
 	})
 	r.Use(middleware.CrosHandler())
-	route.InitRouter(r)
 	server := &http.Server{
 		Addr:    ":8888",
 		Handler: r,
