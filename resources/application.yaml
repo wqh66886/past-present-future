@@ -1,0 +1,10 @@
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  username: root
+  password: root
+  database: past-present-future
+  max_pool_size: 15
+  max_open_conns: 100
+  max_lifetime: 60000
+  connection_timeout: 30000
