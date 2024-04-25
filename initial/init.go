@@ -3,7 +3,7 @@ package initial
 import (
 	"fmt"
 	"github.com/spf13/viper"
-	"github.com/wqh66886/past-present-future/common/define"
+	"github.com/wqh66886/past-present-future/define"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

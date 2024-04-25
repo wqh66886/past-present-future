@@ -8,3 +8,7 @@ mysql:
   max_open_conns: 100
   max_lifetime: 60000
   connection_timeout: 30000
+
+auth:
+  secret_key: 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+  expire_time: 3600
