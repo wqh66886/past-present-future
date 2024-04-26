@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	"github.com/wqh66886/past-present-future/common"
 	"github.com/wqh66886/past-present-future/define"
 	"github.com/wqh66886/past-present-future/initial"
 	"github.com/wqh66886/past-present-future/middleware"
+	"github.com/wqh66886/past-present-future/route"
 	"log"
 	"net/http"
 	"os"
@@ -18,14 +18,9 @@ import (
 func main() {
 	r := gin.Default()
 
-	r.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, common.Response{
-			Code:    200,
-			Message: "Welcome to past present future",
-			Data:    nil,
-		})
-	})
 	r.Use(middleware.CrosHandler())
+	route.Setup(r)
+
 	server := &http.Server{
 		Addr:    ":8888",
 		Handler: r,
