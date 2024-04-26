@@ -13,7 +13,7 @@ type LoginResponse struct {
 }
 
 type LoginUsecase interface {
-	GetUserByEmail(c context.Context, email string) (User, error)
+	GetUserByEmail(c context.Context, email string) (*User, error)
 	CreateAccessToken(user *User) (string, error)
 	CreateRefreshToken(user *User) (string, error)
 }

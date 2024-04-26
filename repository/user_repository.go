@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"github.com/wqh66886/past-present-future/define"
 	"github.com/wqh66886/past-present-future/domain"
 )
 
@@ -16,21 +17,33 @@ func NewUserRepository(ctx context.Context) domain.UserRepository {
 }
 
 func (u userRepository) Create(c context.Context, user *domain.User) error {
-	//TODO implement me
-	panic("implement me")
+	err := define.DB.Create(user).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-func (u userRepository) Fetch(c context.Context) ([]domain.User, error) {
-	//TODO implement me
-	panic("implement me")
+func (u userRepository) Fetch(c context.Context) (users []domain.User, err error) {
+	err = define.DB.Find(&users).Error
+	if err != nil {
+		return nil, err
+	}
+	return
 }
 
-func (u userRepository) GetByEmail(c context.Context, email string) (domain.User, error) {
-	//TODO implement me
-	panic("implement me")
+func (u userRepository) GetByEmail(c context.Context, email string) (user *domain.User, err error) {
+	err = define.DB.Where("email = ?", email).First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }
 
-func (u userRepository) GetByID(c context.Context, id string) (domain.User, error) {
-	//TODO implement me
-	panic("implement me")
+func (u userRepository) GetByID(c context.Context, id string) (user *domain.User, err error) {
+	err = define.DB.Where("id = ?", id).First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }

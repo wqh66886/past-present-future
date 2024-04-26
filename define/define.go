@@ -3,6 +3,7 @@ package define
 import (
 	"fmt"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/google/uuid"
 	model2 "github.com/wqh66886/past-present-future/model"
 	"gorm.io/gorm"
 	"time"
@@ -66,4 +67,8 @@ func ExtractIDFromToken(requestToken string) (string, error) {
 		return "", fmt.Errorf("Invalid Token")
 	}
 	return claims["id"].(string), nil
+}
+
+func GetUUID() string {
+	return uuid.New().String()
 }

@@ -2,8 +2,8 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/wqh66886/past-present-future/common"
 	"github.com/wqh66886/past-present-future/domain"
-	"github.com/wqh66886/past-present-future/errcode"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 )
@@ -17,30 +17,50 @@ func (lc *LoginController) Login(c *gin.Context) {
 
 	err := c.ShouldBind(&request)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, errcode.NewError(400, "Invalid request body"))
+		c.JSON(http.StatusBadRequest, common.Response{
+			Code:    http.StatusBadRequest,
+			Message: "Invalid request",
+			Data:    nil,
+		})
 		return
 	}
 
 	user, err := lc.LoginMapper.GetUserByEmail(c, request.Email)
 	if err != nil {
-		c.JSON(http.StatusNotFound, errcode.NewError(400, "User not found with the given email"))
+		c.JSON(http.StatusNotFound, common.Response{
+			Code:    http.StatusNotFound,
+			Message: "User not found",
+			Data:    nil,
+		})
 		return
 	}
 
 	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)) != nil {
-		c.JSON(http.StatusUnauthorized, errcode.NewError(400, "Invalid credentials"))
+		c.JSON(http.StatusUnauthorized, common.Response{
+			Code:    http.StatusUnauthorized,
+			Message: "Invalid password",
+			Data:    nil,
+		})
 		return
 	}
 
-	accessToken, err := lc.LoginMapper.CreateAccessToken(&user)
+	accessToken, err := lc.LoginMapper.CreateAccessToken(user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, errcode.NewError(400, "Failed to create access token"))
+		c.JSON(http.StatusInternalServerError, common.Response{
+			Code:    http.StatusInternalServerError,
+			Message: "Failed to create access token",
+			Data:    nil,
+		})
 		return
 	}
 
-	refreshToken, err := lc.LoginMapper.CreateRefreshToken(&user)
+	refreshToken, err := lc.LoginMapper.CreateRefreshToken(user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, errcode.NewError(400, "Failed to create refresh token"))
+		c.JSON(http.StatusInternalServerError, common.Response{
+			Code:    http.StatusInternalServerError,
+			Message: "Failed to create refresh token",
+			Data:    nil,
+		})
 		return
 	}
 

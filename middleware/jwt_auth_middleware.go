@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/wqh66886/past-present-future/common"
 	"github.com/wqh66886/past-present-future/define"
-	"github.com/wqh66886/past-present-future/errcode"
 	"net/http"
 	"strings"
 )
@@ -12,7 +12,10 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		authHeader := ctx.GetHeader("Authorization")
 		if len(authHeader) == 0 {
-			ctx.JSON(http.StatusUnauthorized, errcode.UnauthorizedTokenError)
+			ctx.JSON(http.StatusUnauthorized, common.Response{
+				Code:    401,
+				Message: "Not authorized",
+			})
 			ctx.Abort()
 		}
 		t := strings.Split(authHeader, " ")
@@ -22,7 +25,10 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 			if authorized {
 				userId, err := define.ExtractIDFromToken(authToken)
 				if err != nil {
-					ctx.JSON(http.StatusUnauthorized, errcode.NewError(401, err.Error()))
+					ctx.JSON(http.StatusUnauthorized, common.Response{
+						Code:    401,
+						Message: err.Error(),
+					})
 					ctx.Abort()
 					return
 				}
@@ -30,11 +36,17 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 				ctx.Next()
 				return
 			}
-			ctx.JSON(http.StatusUnauthorized, errcode.NewError(401, err.Error()))
+			ctx.JSON(http.StatusUnauthorized, common.Response{
+				Code:    401,
+				Message: err.Error(),
+			})
 			ctx.Abort()
 			return
 		}
-		ctx.JSON(http.StatusUnauthorized, errcode.NewError(401, "Not authorized"))
+		ctx.JSON(http.StatusUnauthorized, common.Response{
+			Code:    401,
+			Message: "Not authorized",
+		})
 		ctx.Abort()
 	}
 }

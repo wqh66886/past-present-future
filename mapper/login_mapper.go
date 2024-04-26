@@ -1,6 +1,7 @@
 package mapper
 
 import (
+	"github.com/wqh66886/past-present-future/define"
 	"github.com/wqh66886/past-present-future/domain"
 	"golang.org/x/net/context"
 )
@@ -15,17 +16,20 @@ func NewLoginMapper(userRepository domain.UserRepository) domain.LoginUsecase {
 	}
 }
 
-func (l loginMapper) GetUserByEmail(c context.Context, email string) (domain.User, error) {
-	//TODO implement me
-	panic("implement me")
+func (l loginMapper) GetUserByEmail(c context.Context, email string) (*domain.User, error) {
+	user, err := l.userRepository.GetByEmail(c, email)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }
 
 func (l loginMapper) CreateAccessToken(user *domain.User) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	token, err := define.CreateToken(user.Name, user.ID)
+	return token, err
 }
 
 func (l loginMapper) CreateRefreshToken(user *domain.User) (string, error) {
-	//TODO implement me
-	panic("implement me")
+	token, err := define.CreateToken(user.Name, user.ID)
+	return token, err
 }
