@@ -24,12 +24,12 @@ func (l loginMapper) GetUserByEmail(c context.Context, email string) (*domain.Us
 	return user, nil
 }
 
-func (l loginMapper) CreateAccessToken(user *domain.User) (string, error) {
-	token, err := define.CreateToken(user.Name, user.ID)
+func (l loginMapper) CreateAccessToken(user *domain.User, expiry int) (string, error) {
+	token, err := define.CreateToken(user.Name, user.ID, expiry)
 	return token, err
 }
 
-func (l loginMapper) CreateRefreshToken(user *domain.User) (string, error) {
-	token, err := define.CreateToken(user.Name, user.ID)
+func (l loginMapper) CreateRefreshToken(user *domain.User, expiry int) (string, error) {
+	token, err := define.CreateToken(user.Name, user.ID, expiry)
 	return token, err
 }

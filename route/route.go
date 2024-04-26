@@ -9,8 +9,8 @@ import (
 func Setup(gin *gin.Engine) {
 	publicRouter := gin.Group("")
 	ctx := context.Background()
+	NewSignupRouter(ctx, publicRouter)
 	NewLoginRouter(ctx, publicRouter)
-
 	// 鉴权开启
 	gin.Use(middleware.JwtAuthMiddleware())
 }

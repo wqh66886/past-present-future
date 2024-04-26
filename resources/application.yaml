@@ -12,3 +12,4 @@ mysql:
 auth:
   secret_key: 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
   expire_time: 3600
+  refresh_time: 7200

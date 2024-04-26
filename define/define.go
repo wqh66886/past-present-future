@@ -25,9 +25,9 @@ type CustomClaims struct {
 	jwt.StandardClaims
 }
 
-func CreateToken(name, id string) (string, error) {
+func CreateToken(name, id string, expiry int) (string, error) {
 	nowTime := time.Now()
-	expireTime := nowTime.Add(time.Duration(Cfg.Auth.ExpireTime) * time.Second)
+	expireTime := nowTime.Add(time.Duration(expiry) * time.Second)
 	claims := CustomClaims{
 		Name: name,
 		ID:   id,

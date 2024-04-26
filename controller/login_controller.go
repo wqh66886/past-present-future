@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/wqh66886/past-present-future/common"
+	"github.com/wqh66886/past-present-future/define"
 	"github.com/wqh66886/past-present-future/domain"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
@@ -44,7 +45,7 @@ func (lc *LoginController) Login(c *gin.Context) {
 		return
 	}
 
-	accessToken, err := lc.LoginMapper.CreateAccessToken(user)
+	accessToken, err := lc.LoginMapper.CreateAccessToken(user, define.Cfg.Auth.ExpireTime)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, common.Response{
 			Code:    http.StatusInternalServerError,
@@ -54,7 +55,7 @@ func (lc *LoginController) Login(c *gin.Context) {
 		return
 	}
 
-	refreshToken, err := lc.LoginMapper.CreateRefreshToken(user)
+	refreshToken, err := lc.LoginMapper.CreateRefreshToken(user, define.Cfg.Auth.RefreshTime)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, common.Response{
 			Code:    http.StatusInternalServerError,
