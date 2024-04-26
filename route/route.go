@@ -11,6 +11,9 @@ func Setup(gin *gin.Engine) {
 	ctx := context.Background()
 	NewSignupRouter(ctx, publicRouter)
 	NewLoginRouter(ctx, publicRouter)
+	NewRefreshTokenRouter(ctx, publicRouter)
 	// 鉴权开启
-	gin.Use(middleware.JwtAuthMiddleware())
+	protectedRouter := gin.Group("")
+	protectedRouter.Use(middleware.JwtAuthMiddleware())
+
 }
